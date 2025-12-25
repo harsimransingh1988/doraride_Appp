@@ -1,0 +1,94 @@
+name: doraride_appp
+description: DoraRide app - green/blue theme
+publish_to: "none"
+
+# ✅ BUMP VERSION so icon update is applied
+version: 1.0.1+7
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ✅ REQUIRED for clean URLs (no # in web)
+  flutter_web_plugins:
+    sdk: flutter
+
+  # --- UI & Utility ---
+  cupertino_icons: ^1.0.8
+  intl: ^0.19.0
+  latlong2: ^0.9.1
+  uuid: ^4.5.2
+  country_picker: ^2.0.26
+  pin_code_fields: ^8.0.1
+  url_launcher: ^6.3.0
+  webview_flutter: ^4.7.0
+  share_plus: ^12.0.1
+
+  # --- Firebase ---
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  cloud_firestore: ^6.1.0
+  firebase_storage: ^13.0.4
+  firebase_messaging: ^16.0.4
+  firebase_crashlytics: ^5.0.5
+  firebase_app_check: ^0.4.1+2
+
+  # ✅ GOOGLE SIGN-IN (REQUIRED for Android / iOS)
+  google_sign_in: ^6.2.1
+
+  # --- Notifications ---
+  flutter_local_notifications: ^19.5.0
+
+  # --- Maps & Geo ---
+  google_maps_flutter: ^2.14.0
+  geolocator: ^14.0.2
+  geocoding: ^4.0.0
+
+  # --- Media & Storage ---
+  image_picker: ^1.1.2
+
+  # --- Security & Local ---
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.3
+
+  # --- Networking ---
+  http: ^1.1.0
+
+  # --- Web interop ---
+  js: ^0.6.3
+
+  # --- Payments (Stripe) ---
+  flutter_stripe: ^12.1.0
+
+  # --- Sound for in-app notifications ---
+  audioplayers: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+  # ✅ APP ICON GENERATOR
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo_white.png
+    - assets/welcome_image.png
+    - assets/welcome_image.png
+    - assets/onboard_intro1.png
+    - assets/onboard_agree.png
+    - assets/sounds/notification.mp3
+    - assets/app_icon.png
+
+# ✅ APP ICON CONFIG
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: assets/app_icon.png
+  min_sdk_android: 21

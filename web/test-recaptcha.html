@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>reCAPTCHA Enterprise Test</title>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le3TBMsAAAAAD7X4YPmqgwZgLXNxQ5TSn_Z0Sts"></script>
+  </head>
+  <body>
+    <button onclick="doTest()">Run reCAPTCHA</button>
+    <pre id="out"></pre>
+
+    <script>
+      function doTest() {
+        grecaptcha.enterprise.ready(function () {
+          grecaptcha.enterprise.execute(
+            '6Le3TBMsAAAAAD7X4YPmqgwZgLXNxQ5TSn_Z0Sts',
+            { action: 'login' }
+          )
+          .then(function (token) {
+            document.getElementById('out').textContent =
+              'Got token: ' + token.substring(0, 30) + '...';
+          })
+          .catch(function (err) {
+            document.getElementById('out').textContent =
+              'Error: ' + err;
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

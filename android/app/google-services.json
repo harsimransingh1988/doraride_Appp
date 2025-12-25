@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "370934169599",
+    "project_id": "doraride-af3ec",
+    "storage_bucket": "doraride-af3ec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370934169599:android:7367944156c78114cf71ca",
+        "android_client_info": {
+          "package_name": "com.doraride.apps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370934169599-tqbbijvvunu2vm6ofphoq90t7cv3gs56.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doraride.apps",
+            "certificate_hash": "f9e4135ce82e207736e7705624818a3632cc5b19"
+          }
+        },
+        {
+          "client_id": "370934169599-8417lotqcmbctnf8uj9fotf8ahbhje1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-hZS8C05UZX35xLE_puOgBgj9JTX1id8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370934169599-8417lotqcmbctnf8uj9fotf8ahbhje1g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "370934169599-mchd17k68chc104p38ech6lblda89tt1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.doraride"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,71 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "doraride-af3ec",
+          "appId": "1:370934169599:android:84729154afb06600cf71ca",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "doraride-af3ec",
+          "configurations": {
+            "android": "1:370934169599:android:84729154afb06600cf71ca",
+            "ios": "1:370934169599:ios:d7f0e64da40c6392cf71ca",
+            "macos": "1:370934169599:ios:d7f0e64da40c6392cf71ca",
+            "web": "1:370934169599:web:98ffa236cdff8006cf71ca",
+            "windows": "1:370934169599:web:1dd111b3a397406acf71ca"
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
+  "hosting": {
+    "public": "build/web",
+    "cleanUrls": true,
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
+      { "source": "/terms-and-conditions", "destination": "/terms-and-conditions.html" },
+      { "source": "/refund-and-payment-policy", "destination": "/refund-policy.html" },
+      { "source": "/driver-cancellation-policy", "destination": "/driver-cancellation-policy.html" },
+      { "source": "/contact", "destination": "/contact.html" },
+
+      { "source": "**", "destination": "/index.html" }
+    ],
+    "headers": [
+      {
+        "source": "/.well-known/*",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=3600" }
+        ]
+      }
+    ]
+  }
+}

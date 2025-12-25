@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="description" content="DoraRide – Ride Smart. Ride Together." />
+
+    <!-- Needed for Flutter Web routing -->
+    <base href="/" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="DoraRide" />
+
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <title>DoraRide</title>
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- DoraRide Stripe Shim -->
+    <script>
+      (function () {
+        let stripe = null, elements = null;
+        let numberEl = null, expiryEl = null, cvcEl = null;
+
+        function init(pk) {
+          stripe = Stripe(pk);
+          elements = stripe.elements();
+          console.log("✅ Stripe initialized");
+          return true;
+        }
+
+        function _host(id) {
+          const el = document.getElementById(id);
+          if (!el) throw new Error("Host not found: " + id);
+          return el;
+        }
+
+        function mountNumber(id) {
+          if (numberEl) numberEl.unmount();
+          numberEl = elements.create("cardNumber", {
+            hidePostalCode: true,
+            style: { base: { fontSize: "16px" } },
+          });
+          numberEl.mount(_host(id));
+          return true;
+        }
+
+        function mountExpiry(id) {
+          if (expiryEl) expiryEl.unmount();
+          expiryEl = elements.create("cardExpiry", {
+            style: { base: { fontSize: "16px" } },
+          });
+          expiryEl.mount(_host(id));
+          return true;
+        }
+
+        function mountCvc(id) {
+          if (cvcEl) cvcEl.unmount();
+          cvcEl = elements.create("cardCvc", {
+            style: { base: { fontSize: "16px" } },
+          });
+          cvcEl.mount(_host(id));
+          return true;
+        }
+
+        async function confirmCard(clientSecret, nameOnCard) {
+          const result = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+              card: numberEl,
+              billing_details: { name: nameOnCard || "Customer" },
+            },
+          });
+
+          if (result.error) {
+            return { ok: false, error: result.error.message };
+          }
+
+          return {
+            ok: true,
+            status: result.paymentIntent.status,
+            id: result.paymentIntent.id,
+          };
+        }
+
+        window.dorarideStripe = {
+          init,
+          mountNumber,
+          mountExpiry,
+          mountCvc,
+          confirmCard,
+        };
+      })();
+    </script>
+
+    <!-- Google Maps -->
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNElfEyri9Gi3sHli686zzmZfvUb_HCR0&libraries=places&loading=async&callback=initMap">
+    </script>
+
+    <script>
+      function initMap() {
+        console.log("✅ Google Maps API loaded successfully");
+      }
+      window.gm_authFailure = function () {
+        console.error("❌ Google Maps auth failed");
+      };
+    </script>
+  </head>
+
+  <body>
+    <!-- ⭐️ HARDCODED DEBUG TOKEN -->
+    <!-- This MUST match what you put in Firebase Console exactly -->
+    <script>
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = "5c7d40ac-4d4c-43b3-a8f8-3328162a4ffc";
+    </script>
+
+    <!-- Hidden host for Stripe card input -->
+    <div id="stripe-card-host"
+         style="position:fixed;left:-9999px;top:-9999px;width:0;height:0;"></div>
+
+    <!-- Flutter Web boot file -->
+    <script src="flutter_bootstrap.js" defer></script>
+
+    <script>
+      console.log("🚀 DoraRide Web App Configuration Loaded");
+      console.log("📱 Project: doraride-af3ec");
+    </script>
+  </body>
+</html>

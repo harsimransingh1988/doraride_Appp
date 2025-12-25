@@ -2,8 +2,8 @@ name: doraride_appp
 description: DoraRide app - green/blue theme
 publish_to: "none"
 
-# ✅ BUMP VERSION so icon update is applied
-version: 1.0.1+7
+# ✅ MUST be higher than your last iOS version in App Store Connect (you had 1.0.6)
+version: 1.0.7+7
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -80,7 +80,6 @@ flutter:
   assets:
     - assets/logo_white.png
     - assets/welcome_image.png
-    - assets/welcome_image.png
     - assets/onboard_intro1.png
     - assets/onboard_agree.png
     - assets/sounds/notification.mp3
@@ -89,6 +88,7 @@ flutter:
 # ✅ APP ICON CONFIG
 flutter_launcher_icons:
   android: true
-  ios: false
+  ios: true
   image_path: assets/app_icon.png
   min_sdk_android: 21
+  remove_alpha_ios: true

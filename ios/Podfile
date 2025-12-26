@@ -10,7 +10,7 @@ project 'Runner', {
 }
 
 def flutter_root
-  generated_xcconfig = File.expand_path(File.join('Flutter', 'Generated.xcconfig'), __FILE__)
+  generated_xcconfig = File.expand_path(File.join('Flutter', 'Generated.xcconfig'), __dir__)
   unless File.exist?(generated_xcconfig)
     raise "#{generated_xcconfig} must exist. If you're running pod install manually, run flutter pub get first."
   end
@@ -30,7 +30,7 @@ target 'Runner' do
   use_frameworks! :linkage => :static
   use_modular_headers!
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  flutter_install_all_ios_pods File.dirname(File.realpath(__dir__))
 end
 
 post_install do |installer|

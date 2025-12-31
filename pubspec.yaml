@@ -3,7 +3,7 @@ description: DoraRide app - green/blue theme
 publish_to: "none"
 
 # ✅ MUST be higher than your last iOS version in App Store Connect (you had 1.0.6)
-version: 1.0.9+9
+version: 1.0.10+10
 
 environment:
   sdk: ">=3.3.0 <4.0.0"

@@ -39,6 +39,11 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: _kThemeGreen,
       appBar: AppBar(
+        // ✅ ADDED BACK BUTTON (ONLY CHANGE)
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).maybePop(),
+        ),
         title: const Text('My Profile', style: TextStyle(color: Colors.white)),
         backgroundColor: _kThemeBlue,
         automaticallyImplyLeading: false,
@@ -81,8 +86,7 @@ class ProfilePage extends StatelessWidget {
                     GuestGuard.requireRegistered(
                       context,
                       onAllowed: () {
-                        Navigator.of(context)
-                            .pushNamed(Routes.profileSettings);
+                        Navigator.of(context).pushNamed(Routes.profileSettings);
                       },
                     );
                   },
@@ -118,8 +122,7 @@ class ProfilePage extends StatelessWidget {
                     GuestGuard.requireRegistered(
                       context,
                       onAllowed: () {
-                        Navigator.of(context)
-                            .pushNamed(Routes.notifications);
+                        Navigator.of(context).pushNamed(Routes.notifications);
                       },
                     );
                   },
@@ -150,26 +153,24 @@ class ProfilePage extends StatelessWidget {
                 // 3. Info & Support
                 // ==========================
                 const _SectionHeader('Info & Support'),
-                
+
                 // Standard Pages
                 _ProfileTile(
                   icon: Icons.share_outlined,
                   title: 'Refer a Friend',
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(Routes.referFriend),
+                  onTap: () => Navigator.of(context).pushNamed(Routes.referFriend),
                 ),
                 _ProfileTile(
                   icon: Icons.chat_bubble_outline,
                   title: 'Social Hub',
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(Routes.socialHub),
+                  onTap: () => Navigator.of(context).pushNamed(Routes.socialHub),
                 ),
                 _ProfileTile(
                   icon: Icons.info_outline,
                   title: 'About Us',
                   onTap: () => Navigator.of(context).pushNamed(Routes.about),
                 ),
-                
+
                 // Legal Policies
                 _ProfileTile(
                   icon: Icons.privacy_tip_outlined,
@@ -247,22 +248,20 @@ class __ProfileHeaderLiveState extends State<_ProfileHeaderLive> {
         final usageRole = (data['usageRole'] ?? 'Passenger').toString();
 
         // ---------- Driver verification logic (aligned with admin) ----------
-        final String licenseNumber = (data['driverLicenseNumber'] ??
-                data['licenseNumber'] ??
-                '')
-            .toString()
-            .trim();
+        final String licenseNumber =
+            (data['driverLicenseNumber'] ?? data['licenseNumber'] ?? '')
+                .toString()
+                .trim();
 
         final bool isDriver = usageRole.toLowerCase().contains('driver');
 
         String driverStatus =
             (data['driverStatus'] ?? 'pending').toString().toLowerCase();
 
-        final bool driverVerifiedFlag =
-            data['isDriverVerified'] == true ||
-                data['driverVerified'] == true ||
-                data['isVerifiedDriver'] == true ||
-                driverStatus == 'approved';
+        final bool driverVerifiedFlag = data['isDriverVerified'] == true ||
+            data['driverVerified'] == true ||
+            data['isVerifiedDriver'] == true ||
+            driverStatus == 'approved';
 
         final bool isDriverVerified =
             isDriver && driverVerifiedFlag && licenseNumber.isNotEmpty;
@@ -283,8 +282,7 @@ class __ProfileHeaderLiveState extends State<_ProfileHeaderLive> {
           if (lastUpdate is Timestamp) ts = lastUpdate.millisecondsSinceEpoch;
           if (lastUpdate is int) ts = lastUpdate;
 
-          final cacheValue =
-              ts > 0 ? ts : DateTime.now().millisecondsSinceEpoch;
+          final cacheValue = ts > 0 ? ts : DateTime.now().millisecondsSinceEpoch;
           if (photo.contains('?')) {
             backgroundUrl = '$photo&cache=$cacheValue';
           } else {
@@ -304,8 +302,7 @@ class __ProfileHeaderLiveState extends State<_ProfileHeaderLive> {
           borderRadius: BorderRadius.circular(12),
           child: Card(
             margin: EdgeInsets.zero,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -313,9 +310,8 @@ class __ProfileHeaderLiveState extends State<_ProfileHeaderLive> {
                   CircleAvatar(
                     radius: 36,
                     backgroundColor: _kThemeGreen.withOpacity(0.1),
-                    backgroundImage: (backgroundUrl != null)
-                        ? NetworkImage(backgroundUrl)
-                        : null,
+                    backgroundImage:
+                        (backgroundUrl != null) ? NetworkImage(backgroundUrl) : null,
                     child: (backgroundUrl == null)
                         ? Text(
                             displayName.isNotEmpty
@@ -345,7 +341,6 @@ class __ProfileHeaderLiveState extends State<_ProfileHeaderLive> {
                               ),
                         ),
                         const SizedBox(height: 4),
-
                         if (isDriver)
                           Row(
                             children: [
@@ -380,9 +375,7 @@ class __ProfileHeaderLiveState extends State<_ProfileHeaderLive> {
                               ),
                             ],
                           ),
-
                         if (isDriver) const SizedBox(height: 4),
-
                         Text(
                           'Role: $usageRole',
                           style: const TextStyle(

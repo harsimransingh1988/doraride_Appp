@@ -33,6 +33,7 @@ class _WelcomePageState extends State<WelcomePage>
   final _authService = AuthService(); // ✅ NEW
 
   bool _loadingGoogle = false;
+  bool _loadingApple = false; // 🍎 NEW
   bool _loadingGuest = false;
 
   @override
@@ -88,7 +89,8 @@ class _WelcomePageState extends State<WelcomePage>
 
         // verification hints
         'emailVerified': user.emailVerified,
-        'phoneVerified': user.phoneNumber != null && user.phoneNumber!.isNotEmpty,
+        'phoneVerified':
+            user.phoneNumber != null && user.phoneNumber!.isNotEmpty,
 
         // bookkeeping
         'lastLoginAt': FieldValue.serverTimestamp(),
@@ -131,6 +133,34 @@ class _WelcomePageState extends State<WelcomePage>
       }
     } finally {
       if (mounted) setState(() => _loadingGoogle = false);
+    }
+  }
+
+  // --------------------------------
+  // 🍎 Apple Sign-In (Android + Web)
+  // --------------------------------
+  Future<void> _signInWithApple() async {
+    if (_loadingApple) return;
+    setState(() => _loadingApple = true);
+
+    try {
+      final cred = await _authService.signInWithApple();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Signed in with Apple')),
+        );
+      }
+
+      await _afterLogin(cred, 'apple');
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Apple sign-in failed: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _loadingApple = false);
     }
   }
 
@@ -246,9 +276,11 @@ class _WelcomePageState extends State<WelcomePage>
 
               _BottomButtons(
                 onGoogleTap: _loadingGoogle ? null : _signInWithGoogle,
+                onAppleTap: _loadingApple ? null : _signInWithApple, // 🍎 NEW
                 onEmailTap: _navigateToLogin,
                 onGuestTap: _loadingGuest ? null : _continueAsGuest,
                 loadingGoogle: _loadingGoogle,
+                loadingApple: _loadingApple, // 🍎 NEW
                 loadingGuest: _loadingGuest,
               ),
             ],
@@ -260,21 +292,25 @@ class _WelcomePageState extends State<WelcomePage>
 }
 
 // --------------------------------------
-// Buttons (Google / Email / Guest only)
+// Buttons (Google / Apple / Email / Guest)
 // --------------------------------------
 class _BottomButtons extends StatelessWidget {
   final VoidCallback? onGoogleTap;
+  final VoidCallback? onAppleTap; // 🍎 NEW
   final VoidCallback onEmailTap;
   final VoidCallback? onGuestTap;
 
   final bool loadingGoogle;
+  final bool loadingApple; // 🍎 NEW
   final bool loadingGuest;
 
   const _BottomButtons({
     required this.onGoogleTap,
+    required this.onAppleTap, // 🍎 NEW
     required this.onEmailTap,
     required this.onGuestTap,
     required this.loadingGoogle,
+    required this.loadingApple, // 🍎 NEW
     required this.loadingGuest,
   });
 
@@ -351,6 +387,24 @@ class _BottomButtons extends StatelessWidget {
                     row(Icons.g_translate, 'Continue with Google',
                         iconColor: _kThemeBlue),
                     Positioned(right: 16, child: maybeSpinner(loadingGoogle)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // 🍎 Apple (same style as Google)
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: onAppleTap,
+                style: filledWhiteBlueText(),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    row(Icons.apple, 'Continue with Apple',
+                        iconColor: _kThemeBlue),
+                    Positioned(right: 16, child: maybeSpinner(loadingApple)),
                   ],
                 ),
               ),
